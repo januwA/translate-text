@@ -1,6 +1,6 @@
 {
   "name": "translate-text",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Use Google Translate to translate text",
   "private": true,
   "main": "./dist/index.ts",

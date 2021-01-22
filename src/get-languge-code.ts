@@ -2,7 +2,6 @@ import * as path from "path";
 import * as fs from "fs";
 import pptr from "puppeteer";
 import ora from "ora";
-import { TRANSLATE_ORIGIN } from "./origin";
 
 export interface LanguageItem {
   name: string;
@@ -17,7 +16,7 @@ export async function getLangugeCode(): Promise<LanguageItem[]> {
   });
 
   const page = await browser.newPage();
-  await page.goto(TRANSLATE_ORIGIN);
+  await page.goto("https://translate.google.cn");
   const span = await page.waitForSelector(".SL5JTc", {
     hidden: true,
   });
