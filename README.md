@@ -42,3 +42,6 @@ $ gt data.json en ja --path=msg --path=title
 ✔ success.        
 $ cat data.ja.json
 ```
+
+- [language_code zh](https://github.com/januwA/translate-text/blob/main/languages.json)
+- [language_code en](https://github.com/januwA/translate-text/blob/main/languages.en.json)
