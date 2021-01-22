@@ -1,0 +1,12 @@
+{
+  "title": "标题",
+  "@title": {
+    "type": "text",
+    "description": "页面标题。"
+  },
+  "subtitle": "字幕",
+  "@subtitle": {
+    "type": "text",
+    "description": "页面字幕。"
+  }
+}

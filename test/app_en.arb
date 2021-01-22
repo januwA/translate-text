@@ -1,0 +1,12 @@
+{
+  "title": "title",
+  "@title": {
+    "type": "text",
+    "description": "Page title."
+  },
+  "subtitle": "subtitle",
+  "@subtitle": {
+    "type": "text",
+    "description": "Page subtitle."
+  }
+}
