@@ -1,11 +1,17 @@
 {
   "name": "translate-text",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "description": "Use Google Translate to translate text",
   "private": true,
-  "main": "./dist/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/translate.js"
+    }
+  },
   "scripts": {
-    "build": "tsc -p ./tsconfig.build.json",
+    "build": "wsl rm -rf dist && tsc -p ./tsconfig.build.json",
     "watch": "tsc -p ./tsconfig.build.json -w",
     "start": "npm run build && node ./dist/index.js",
     "install": "npm link",

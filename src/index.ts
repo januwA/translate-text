@@ -5,6 +5,7 @@ import * as path from "path";
 import yargs from "yargs";
 import JSON5 from "json5";
 import { translates } from "./translate";
+export { translates } from "./translate";
 
 const DEFAULT_ORIGIN = "google";
 
@@ -19,6 +20,11 @@ const argv = yargs
     alias: "o",
     default: DEFAULT_ORIGIN,
     description: "google | baidu | youdao | bing",
+  })
+  .option("loading", {
+    boolean: true,
+    default: true,
+    description: "Show a loading status",
   })
   .option("headless", {
     boolean: true,
@@ -47,7 +53,10 @@ async function main() {
 
   if (checkOrigin(argv.origin)) {
     translates[argv.origin]
-      .translate(source, sl, tl, argv.headless, argv.path as string[])
+      .translate(source, sl, tl, {
+        headless: argv.headless,
+        paths: argv.path as string[],
+      })
       .then((t_source: any) => {
         const spp = path.parse(s);
         const sp = path.join("./", `${spp.name}.${tl}${spp.ext}`);

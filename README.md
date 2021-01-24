@@ -7,7 +7,6 @@ Use Google Translate to translate text
 $ git clone https://github.com/januwA/translate-text.git
 $ npm i
 $ npm run build
-$ node dist/index.js -h
 $ node dist/index.js --help
 
 // Or install global commands

@@ -16,17 +16,22 @@ abstract class Translate {
     source: any /* string | string[] | {} | {}[] */,
     sl: string,
     tl: string,
-    headless: boolean,
-    paths?: string[]
+    options?: {
+      headless?: boolean;
+      paths?: string[];
+      loading?: boolean;
+    }
   ): Promise<any> {
-    const p = ora("translate...").start();
+    if (!options) options = {};
+    let p: ora.Ora | undefined;
+    if (options.loading) p = ora("translate...").start();
 
     const browser = await pptr.launch({
-      headless: headless,
+      headless: options.headless ?? true,
       slowMo: 250,
     });
     browser.on("targetdestroyed", () => {
-      p.fail();
+      if (p) p.fail();
     });
 
     try {
@@ -45,8 +50,8 @@ abstract class Translate {
             continue;
           }
 
-          if (paths && paths.length) {
-            for (const $__ of paths) {
+          if (options.paths && options.paths.length) {
+            for (const $__ of options.paths) {
               const data = await this.getValue(page, sl, tl, l_get($_, $__));
               l_set($_, $__, data);
             }
@@ -63,10 +68,10 @@ abstract class Translate {
           } else if (
             typeof v === "object" &&
             v !== null &&
-            paths &&
-            paths.length
+            options.paths &&
+            options.paths.length
           ) {
-            for (const dataPath of paths) {
+            for (const dataPath of options.paths) {
               const data = await this.getValue(
                 page,
                 sl,
@@ -79,11 +84,11 @@ abstract class Translate {
         }
       }
 
-      p.succeed("success.");
+      if (p) p.succeed("success.");
       browser.close();
       return source;
     } catch (error) {
-      p.fail(error.message);
+      if (p) p.fail(error.message);
       browser.close();
     }
   }
@@ -111,8 +116,6 @@ export class GoogleTranslate extends Translate {
 
 export class BaiduTranslate extends Translate {
   origin = "https://fanyi.baidu.com";
-  isOpen = false;
-
   async getValue(
     page: pptr.Page,
     sl: string,
@@ -134,10 +137,9 @@ export class BaiduTranslate extends Translate {
         }
       });
 
-      if (!this.isOpen) {
+      if (!page.url().startsWith('http')) {
         const gotoUrl = `${this.origin}/#${sl}/${tl}/${text}`;
         await page.goto(gotoUrl);
-        this.isOpen = true;
       } else {
         await page.$eval(
           "#baidu_translate_input",
